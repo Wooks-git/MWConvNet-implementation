@@ -3,3 +3,4 @@
 
 ## Model Architecture
 [Image]: https://github.com/Wooks-git/MWConvNet-implementation/assets/MWConvNet_architecture.jpg "model"
+[![Image](https://github.com/Wooks-git/MWConvNet-implementation/assets/MWConvNet_architecture.jpg)](연결할 링크)
