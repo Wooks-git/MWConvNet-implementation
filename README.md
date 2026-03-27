@@ -171,8 +171,6 @@ def forward(self, x):
     out = self.final(x_feat + x_shallow) + x
     return out, logits, prompt
 ```
-
-핵심 포인트:
 - encoder에서 파형 분해 기반 skip을 축적
 - bottleneck에서 prompt 추출
 - decoder 전 단계가 동일 prompt 조건을 공유하며 복원
