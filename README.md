@@ -39,7 +39,6 @@ class MWConvNet(nn.Module):
         self.final = nn.Conv2d(self.chan_dims[0], in_channels, kernel_size=3, padding=1)
 ```
 
-설명:
 - `input_proj`: shallow feature 추출
 - Encoder: stage 1~5에서 특징 추출, stage 1~4는 wavelet pooling으로 LF/HF 분해
 - `prompt_module`: 최종 저주파 특징에서 weather prompt 생성
@@ -77,7 +76,6 @@ class MWEncBlock(nn.Module):
         return out
 ```
 
-설명:
 - 활성함수 없이(`ReLU/GELU 없음`) 곱셈 게이팅(`y1 * y2`)으로 비선형성 확보
 - depthwise + pointwise 조합으로 계산량 절감
 - `beta`, `gamma`를 학습해 residual 기여도를 안정적으로 조절
@@ -100,7 +98,6 @@ class WaveletPooling(nn.Module):
         return low_freq, high_freq
 ```
 
-설명:
 - Haar wavelet으로 downsample하면서 주파수 분해를 동시에 수행
 - `low_freq`는 다음 encoder stage로 전달
 - `high_freq`는 skip connection으로 decoder 복원 품질 개선에 사용
@@ -125,7 +122,6 @@ class PromptModule(nn.Module):
         return prompt, logits
 ```
 
-설명:
 - encoder 최종 특징에서 global context를 압축해 weather-aware prompt 벡터 생성
 - `logits`는 날씨 분류 보조학습(학습 시) 용도로 사용 가능
 
@@ -141,7 +137,6 @@ class MWDecBlock(nn.Module):
         return x_norm + self.gamma * y
 ```
 
-설명:
 - prompt로부터 affine 계수(`mu_we`, `std_we`)를 생성
 - feature 통계(`mu_f`, `std_f`)를 날씨 조건에 맞춰 재정렬하는 방식
 - 논문에서 제시한 weather-adaptive normalization 아이디어를 코드로 구현한 핵심 부분
@@ -157,7 +152,6 @@ class UpSampleFusionBlock(nn.Module):
         return upsampled
 ```
 
-설명:
 - decoder 특징과 encoder skip 특징을 더해 정보 융합
 - `1x1 conv + PixelShuffle`로 해상도 2배 복원
 - wavelet 기반 skip의 고주파 정보가 디테일 복원에 직접 기여
@@ -185,7 +179,3 @@ def forward(self, x):
 - 마지막에 입력 이미지 residual을 더해 안정적 복원
 
 ---
-
-참고:
-- 본 문서의 논문 그림은 설명 목적의 발췌 이미지입니다.
-- 상세 수식/정의는 원문을 참고하세요.
